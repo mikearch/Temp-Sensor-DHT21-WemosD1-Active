@@ -13,8 +13,8 @@
 DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 
 // Timers auxiliary variables
-long Tnow = millis();
-long lastMeasure = 0;
+unsigned long Tnow = millis();
+unsigned long lastMeasure = 0;
 
 
 // Change the credentials below, so your ESP8266 connects to your router
