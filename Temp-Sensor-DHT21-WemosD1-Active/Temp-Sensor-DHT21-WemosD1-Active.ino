@@ -32,8 +32,8 @@ const char* password = "CY3qR8KT";
 const char* mqtt_server = "192.168.0.50";
 
 // Initializes the espClient. You should change the espClient name if you have multiple ESPs running in your home automation system
-WiFiClient espClient;
-PubSubClient client(espClient);
+WiFiClient espClient9;
+PubSubClient client(espClient9);
 long lastMsg = 0;
 char msg[50];
 int value = 0;
@@ -121,7 +121,7 @@ void reconnect() {
        if (client.connect("ESP2_Garage")) {
       That should solve your MQTT multiple connections problem
     */
-    if (client.connect("ESP8266Client")) {
+    if (client.connect("ESP8266Client9")) {
       Serial.println("connected");
       // Subscribe or resubscribe to a topic
       // You can subscribe to more topics (to control more LEDs in this example)
@@ -139,7 +139,7 @@ void reconnect() {
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   dht.begin();
   setup_wifi();
   client.setServer(mqtt_server, 1883);
@@ -153,7 +153,7 @@ void loop()
     reconnect();
   }
   if(!client.loop())
-    client.connect("ESP8266Client");
+    client.connect("ESP8266Client9");
     delay(2000);
    getTemp();
   Tnow = millis();
