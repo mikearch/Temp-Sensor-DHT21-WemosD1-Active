@@ -18,11 +18,18 @@ unsigned long lastMeasure = 0;
 
 
 // Change the credentials below, so your ESP8266 connects to your router
-const char* ssid = "HUAWEI-E5776-89CD";
-const char* password = "QFYTA2E2";
+//const char* ssid = "HUAWEI-E5776-89CD";
+//const char* password = "QFYTA2E2";
+
+// D-Link router
+const char* ssid = "DWR-921-2BF8";
+const char* password = "CY3qR8KT";
 
 // Change the variable to your Raspberry Pi IP address, so it connects to your MQTT broker
-const char* mqtt_server = "192.168.1.101";
+//const char* mqtt_server = "192.168.1.101";
+
+//D-Link router
+const char* mqtt_server = "192.168.0.50";
 
 // Initializes the espClient. You should change the espClient name if you have multiple ESPs running in your home automation system
 WiFiClient espClient;
@@ -55,14 +62,14 @@ void setup_wifi() {
 
 
 // This functions is executed when some device publishes a message to a topic that your ESP8266 is subscribed to
-// Change the function below to add logic to your program, so when a device publishes a message to a topic that 
+// Change the function below to add logic to your program, so when a device publishes a message to a topic that
 // your ESP8266 is subscribed you can actually do something
 void callback(String topic, byte* message, unsigned int length) {
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
   Serial.print(". Message: ");
   String messageTemp;
-  
+
   for (int i = 0; i < length; i++) {
     Serial.print((char)message[i]);
     messageTemp += (char)message[i];
@@ -75,29 +82,29 @@ void callback(String topic, byte* message, unsigned int length) {
   if(topic=="home/office/esp1/desk"){
       Serial.print("Changing Desk light to ");
       if(messageTemp == "1"){
-        
+
         Serial.print("On");
       }
       else if(messageTemp == "0"){
-      
+
         Serial.print("Off");
       }
   }
   if(topic=="home/office/esp1/workbench"){
       Serial.print("Changing Workbench light to ");
       if(messageTemp == "1"){
-      
+
         Serial.print("On");
       }
       else if(messageTemp == "0"){
-      
+
         Serial.print("Off");
       }
   }
   Serial.println();
 }
 // This functions reconnects your ESP8266 to your MQTT broker
-// Change the function below if you want to subscribe to more topics with your ESP8266 
+// Change the function below if you want to subscribe to more topics with your ESP8266
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -115,7 +122,7 @@ void reconnect() {
       That should solve your MQTT multiple connections problem
     */
     if (client.connect("ESP8266Client")) {
-      Serial.println("connected");  
+      Serial.println("connected");
       // Subscribe or resubscribe to a topic
       // You can subscribe to more topics (to control more LEDs in this example)
       client.subscribe("home/office/esp1/desk");
@@ -141,15 +148,15 @@ void setup()
 
 void loop()
 {
-    
+
  if (!client.connected()) {
     reconnect();
   }
   if(!client.loop())
-    client.connect("ESP8266Client");   
+    client.connect("ESP8266Client");
     delay(2000);
    getTemp();
-  Tnow = millis();  
+  Tnow = millis();
     if (Tnow - lastMeasure > 30000) {
     lastMeasure = Tnow;
     Serial.println("publish");
@@ -157,4 +164,3 @@ void loop()
    // delay(10000); //Delay 2 sec.
 }
 }
-   
